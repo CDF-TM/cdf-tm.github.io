@@ -1,11 +1,13 @@
 // Default counts
-origin_projects= 215;
-origin_corporations= 22;
-origin_preludes= 49;
+origin_projects= 15;
+origin_corporations= 7;
+origin_preludes= 7;
+origin_globals=1;
+// 591 total without young corpo and with colony tiles
 PROJECTS = origin_projects;
 CORPORATIONS = origin_corporations;
 PRELUDES = origin_preludes;
-
+GLOBALS = origin_globals;
 
 CONTAINER = 200; //the default height of the buttons container
 CONTENT_FILTERS = 125; //the default height of the Content filters area
@@ -37,6 +39,7 @@ function showAll() {
   document.getElementById("totalProjects").innerHTML = PROJECTS;
   document.getElementById("totalCorporations").innerHTML = CORPORATIONS;
   document.getElementById("totalPreludes").innerHTML = PRELUDES;
+  document.getElementById("totalGlobals").innerHTML = GLOBALS;
 
   //making all buttons inactive
   y = document.querySelectorAll("button.active");
@@ -71,10 +74,11 @@ function displayCards() {
     w3AddClass(arr[i], "display");
     w3RemoveClass(arr[i], "show");
   }
-    /////test////
+  /////test////
   PROJECTS = origin_projects;
   CORPORATIONS = origin_corporations;
   PRELUDES = origin_preludes;
+  GLOBALS = origin_globals;
 }
 
 //////////////////////PARSE function ////////////////////////////////
@@ -196,7 +200,7 @@ function filterFunction(id) {
   } else {
     document
       .getElementById("subfilterReqs")
-      .classList.add("subfilterReqs-disabled"); //to disble the subfilters
+      .classList.add("subfilterReqs-disabled"); //to disable the subfilters
   }
 
   //filter by VP
@@ -287,7 +291,6 @@ function filterFunction(id) {
     cityTileValue = document.getElementById("slider9").value;
     greeneryTileValue = document.getElementById("slider10").value;
 
-
     if (
       temperatureValue > -30 ||
       oxygenValue > 0 ||
@@ -350,7 +353,6 @@ function filterFunction(id) {
             show = true;
           }
         }
-
         //the check
         if (show) {
           w3AddClass(x[i], "show");
@@ -405,11 +407,13 @@ function filterFunction(id) {
   displayedCards = document.querySelectorAll("li.show").length;
   CORPORATIONS = document.querySelectorAll("li.show.corporation").length;
   PRELUDES = document.querySelectorAll("li.show.carte-prel").length;
+  GLOBALS = document.querySelectorAll("li.show.global-card").length;
 
-  PROJECTS = displayedCards - CORPORATIONS - PRELUDES;
+  PROJECTS = displayedCards - CORPORATIONS - PRELUDES - GLOBALS;
   document.getElementById("totalProjects").innerHTML = PROJECTS;
   document.getElementById("totalCorporations").innerHTML = CORPORATIONS;
   document.getElementById("totalPreludes").innerHTML = PRELUDES;
+  document.getElementById("totalGlobals").innerHTML = GLOBALS;
 
   //clearing all displayed cards
   y = document.querySelectorAll(".display");
@@ -420,6 +424,7 @@ function filterFunction(id) {
   displayCards();
 }
 
+
 function clearInput() {
   document.getElementById("myInput").value = ""; //resets the text input
   document.getElementById("price").value = 0;
@@ -428,7 +433,6 @@ function clearInput() {
   document.getElementById("btn-selectedCards").classList.add("disabled"); //hide the selected cards button
   document.getElementById("sortButtons").reset(); // reset sort button
   sortByID(); //reset project cards order per ID
-
 
   //resets the range inputs
   document.getElementById("slider1").value = -30;
@@ -464,6 +468,7 @@ function clearInput() {
   }
   selectedCards = "";
 
+  
   //scroll to the top
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -495,14 +500,14 @@ function w3RemoveClass(element, name) {
 function toggleContentDiv() {
   document.getElementById("content").classList.toggle("active");
   if (document.getElementById("content").classList.contains("active")) {
-    containerHeight = containerHeight + contentFiltersCurrent + 30; //30 for the margins
+    containerHeight = containerHeight + contentFiltersCurrent + 20; //20 for the margins
     document.getElementById("buttonsContainer-body").style.height =
       containerHeight + "px";
     setTimeout(function () {
       $("#contentFilters").fadeIn(200);
     }, 100);
   } else {
-    containerHeight = containerHeight - contentFiltersCurrent - 30;
+    containerHeight = containerHeight - contentFiltersCurrent - 20;
     document.getElementById("contentFilters").style.display = "none"; //hides the range inputs div
     document.getElementById("buttonsContainer-body").style.height =
       containerHeight + "px";
@@ -524,7 +529,7 @@ function toggleFooterDiv() {
   }
 }
 
-//toggle Requerements filters
+//toggle Requierements filters
 function toggleRequirementsFilters() {
   document.getElementById("subfilterReqs").classList.toggle("active");
   if ($("#subfilterReqs:visible").length == 0) {
@@ -703,7 +708,7 @@ function selectCard(clickedCard) {
     //showing or removing the CTA button and updating its url
     if (selectedCards.length > 0) {
       document.getElementById("btn-selectedCards").href =
-        "https://cdf-tm.github.io/cards-list-j1" + selectedCards;
+        "https://cdf-tm.github.io/CdF-cards-list" + selectedCards;
       document.getElementById("selectedCardsAmount").innerHTML =
         selectedCardsAmount;
       document.getElementById("btn-selectedCards").classList.remove("disabled");

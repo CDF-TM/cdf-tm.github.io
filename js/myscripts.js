@@ -1,11 +1,15 @@
 // Default counts
-origin_projects= 215;
-origin_corporations= 22;
-origin_preludes= 49;
+origin_projects= 427;
+origin_corporations= 47;
+origin_preludes= 71;
+origin_colonies=11;
+origin_globals=36;
+// 592 total without young corpo and with colony tiles
 PROJECTS = origin_projects;
 CORPORATIONS = origin_corporations;
 PRELUDES = origin_preludes;
-
+COLONIES = origin_colonies;
+GLOBALS = origin_globals;
 
 CONTAINER = 200; //the default height of the buttons container
 CONTENT_FILTERS = 125; //the default height of the Content filters area
@@ -37,6 +41,8 @@ function showAll() {
   document.getElementById("totalProjects").innerHTML = PROJECTS;
   document.getElementById("totalCorporations").innerHTML = CORPORATIONS;
   document.getElementById("totalPreludes").innerHTML = PRELUDES;
+  document.getElementById("totalColonies").innerHTML = COLONIES;
+  document.getElementById("totalGlobals").innerHTML = GLOBALS;
 
   //making all buttons inactive
   y = document.querySelectorAll("button.active");
@@ -71,10 +77,12 @@ function displayCards() {
     w3AddClass(arr[i], "display");
     w3RemoveClass(arr[i], "show");
   }
-    /////test////
+  /////test////
   PROJECTS = origin_projects;
   CORPORATIONS = origin_corporations;
   PRELUDES = origin_preludes;
+  COLONIES = origin_colonies;
+  GLOBALS = origin_globals;
 }
 
 //////////////////////PARSE function ////////////////////////////////
@@ -112,6 +120,11 @@ function filterFunction(id) {
   clickedElementID = document.getElementById(id);
   if (clickedElementID != null) {
     clickedElementID.classList.toggle("active");
+    if (document.querySelectorAll("button.active.pack").length==10){
+      document.getElementById("promos").classList.add("active");
+    }else {
+      document.getElementById("promos").classList.remove("active");
+    }
   }
 
   x = document.querySelectorAll(".filterDiv");
@@ -196,7 +209,7 @@ function filterFunction(id) {
   } else {
     document
       .getElementById("subfilterReqs")
-      .classList.add("subfilterReqs-disabled"); //to disble the subfilters
+      .classList.add("subfilterReqs-disabled"); //to disable the subfilters
   }
 
   //filter by VP
@@ -281,19 +294,22 @@ function filterFunction(id) {
     temperatureValue = document.getElementById("slider1").value;
     oxygenValue = document.getElementById("slider2").value;
     oceansValue = document.getElementById("slider3").value;
+    venusValue = document.getElementById("slider4").value;
     scienceValue = document.getElementById("slider5").value;
     jovianValue = document.getElementById("slider6").value;
+    venusTagValue = document.getElementById("slider7").value;
     earthValue = document.getElementById("slider8").value;
     cityTileValue = document.getElementById("slider9").value;
     greeneryTileValue = document.getElementById("slider10").value;
-
 
     if (
       temperatureValue > -30 ||
       oxygenValue > 0 ||
       oceansValue > 0 ||
+      venusValue > 0 ||
       scienceValue > 0 ||
       jovianValue > 0 ||
+      venusTagValue > 0 ||
       earthValue > 0 ||
       cityTileValue > 0 ||
       greeneryTileValue > 0
@@ -303,8 +319,10 @@ function filterFunction(id) {
         temperatureData = parseInt(x[i].dataset.temperature);
         oxygenData = parseInt(x[i].dataset.oxygen);
         oceansData = parseInt(x[i].dataset.oceans);
+        venusData = parseInt(x[i].dataset.venus);
         scienceData = parseInt(x[i].dataset.science);
         jovianData = parseInt(x[i].dataset.jovian);
+        venusTagData = parseInt(x[i].dataset.venustag);
         earthData = parseInt(x[i].dataset.earth);
         cityTileData = parseInt(x[i].dataset.citytile);
         greeneryTileData = parseInt(x[i].dataset.greenerytile);
@@ -325,6 +343,11 @@ function filterFunction(id) {
             show = true;
           }
         }
+        if (venusValue > 0) {
+          if (venusValue <= venusData) {
+            show = true;
+          }
+        }
         if (scienceValue > 0) {
           if (scienceValue <= scienceData) {
             show = true;
@@ -332,6 +355,11 @@ function filterFunction(id) {
         }
         if (jovianValue > 0) {
           if (jovianValue <= jovianData) {
+            show = true;
+          }
+        }
+        if (venusTagValue > 0) {
+          if (venusTagValue <= venusTagData) {
             show = true;
           }
         }
@@ -350,7 +378,6 @@ function filterFunction(id) {
             show = true;
           }
         }
-
         //the check
         if (show) {
           w3AddClass(x[i], "show");
@@ -367,10 +394,14 @@ function filterFunction(id) {
     document.getElementById("output2").innerHTML = 0;
     document.getElementById("slider3").value = 0;
     document.getElementById("output3").innerHTML = 0;
+    document.getElementById("slider4").value = 0;
+    document.getElementById("output4").innerHTML = 0;
     document.getElementById("slider5").value = 0;
     document.getElementById("output5").innerHTML = 0;
     document.getElementById("slider6").value = 0;
     document.getElementById("output6").innerHTML = 0;
+    document.getElementById("slider7").value = 0;
+    document.getElementById("output7").innerHTML = 0;
     document.getElementById("slider8").value = 0;
     document.getElementById("output8").innerHTML = 0;
     document.getElementById("slider9").value = 0;
@@ -405,11 +436,15 @@ function filterFunction(id) {
   displayedCards = document.querySelectorAll("li.show").length;
   CORPORATIONS = document.querySelectorAll("li.show.corporation").length;
   PRELUDES = document.querySelectorAll("li.show.carte-prel").length;
+  COLONIES = document.querySelectorAll("li.show.colony-card").length;
+  GLOBALS = document.querySelectorAll("li.show.global-card").length;
 
-  PROJECTS = displayedCards - CORPORATIONS - PRELUDES;
+  PROJECTS = displayedCards - CORPORATIONS - PRELUDES - COLONIES - GLOBALS;
   document.getElementById("totalProjects").innerHTML = PROJECTS;
   document.getElementById("totalCorporations").innerHTML = CORPORATIONS;
   document.getElementById("totalPreludes").innerHTML = PRELUDES;
+  document.getElementById("totalColonies").innerHTML = COLONIES;
+  document.getElementById("totalGlobals").innerHTML = GLOBALS;
 
   //clearing all displayed cards
   y = document.querySelectorAll(".display");
@@ -420,6 +455,67 @@ function filterFunction(id) {
   displayCards();
 }
 
+function managePacks(id){ //manage promo packs buttons when using buttons add all/remove all
+  if (id=="manageAdd"){
+    //making all packs buttons active
+    y = document.querySelectorAll("button.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.add("active");
+      }
+    }
+    
+    document.getElementById("promos").classList.add("active");
+  }else if (id=="manageRemove"){
+    //making all pack buttons inactive
+    y = document.querySelectorAll("button.active.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.toggle("active");
+      }
+    }
+    document.getElementById("promos").classList.remove("active");
+  }
+}
+function managePromos(id){//manage promo packs buttons when using main promo button
+  if (document.getElementById(id).classList.contains("active")){
+    y = document.querySelectorAll("button.active.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.toggle("active");
+      }
+    }
+  }else{
+    //making all packs buttons active
+    y = document.querySelectorAll("button.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.add("active");
+      }
+    }
+  }
+}
+
+function togglePromoPacks(){ // manage promo pack zone and its line visibility (and secondary clean up)
+  line=document.querySelectorAll(".hidden")[0];
+  line2=document.querySelectorAll(".hidden")[1];
+  oline=document.querySelectorAll(".visible")[0];
+  document.getElementById("revealPromos").classList.toggle("active");
+  if (document.getElementById("revealPromos").classList.contains("active")) {
+    document.getElementById("PromosContainer-body").style.display = "block";// reveal the promo pack container
+    line.style.display = "inline-block";// reveal the promo pack container and its lines
+    line2.style.display = "inline-block";// reveal the promo pack container and its lines
+    oline.style.display = "none";
+  } else {
+    document.getElementById("PromosContainer-body").style.display = "none";// reveal the promo pack container
+    line.style.display = "none"; // hide the promo pack container its lines
+    line2.style.display = "none"; // hide the promo pack container its line
+    oline.style.display = "inline-block";
+    filterFunction(); // reset the promo packs individual filter
+  }
+}
+
+
 function clearInput() {
   document.getElementById("myInput").value = ""; //resets the text input
   document.getElementById("price").value = 0;
@@ -427,8 +523,10 @@ function clearInput() {
   document.getElementById("subfilterReqs").style.display = "none"; //hides the range inputs div
   document.getElementById("btn-selectedCards").classList.add("disabled"); //hide the selected cards button
   document.getElementById("sortButtons").reset(); // reset sort button
+  if (document.getElementById("revealPromos").classList.contains("active")) {
+    togglePromoPacks();//desactivate RevealPromos button if it was active
+  }
   sortByID(); //reset project cards order per ID
-
 
   //resets the range inputs
   document.getElementById("slider1").value = -30;
@@ -437,10 +535,14 @@ function clearInput() {
   document.getElementById("output2").innerHTML = 0;
   document.getElementById("slider3").value = 0;
   document.getElementById("output3").innerHTML = 0;
+  document.getElementById("slider4").value = 0;
+  document.getElementById("output4").innerHTML = 0;
   document.getElementById("slider5").value = 0;
   document.getElementById("output5").innerHTML = 0;
   document.getElementById("slider6").value = 0;
   document.getElementById("output6").innerHTML = 0;
+  document.getElementById("slider7").value = 0;
+  document.getElementById("output7").innerHTML = 0;
   document.getElementById("slider8").value = 0;
   document.getElementById("output8").innerHTML = 0;
   document.getElementById("slider9").value = 0;
@@ -464,6 +566,7 @@ function clearInput() {
   }
   selectedCards = "";
 
+  
   //scroll to the top
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -524,7 +627,7 @@ function toggleFooterDiv() {
   }
 }
 
-//toggle Requerements filters
+//toggle Requierements filters
 function toggleRequirementsFilters() {
   document.getElementById("subfilterReqs").classList.toggle("active");
   if ($("#subfilterReqs:visible").length == 0) {
@@ -703,7 +806,7 @@ function selectCard(clickedCard) {
     //showing or removing the CTA button and updating its url
     if (selectedCards.length > 0) {
       document.getElementById("btn-selectedCards").href =
-        "https://cdf-tm.github.io/cards-list-j1" + selectedCards;
+        "https://cdf-tm.github.io/cards-list" + selectedCards;
       document.getElementById("selectedCardsAmount").innerHTML =
         selectedCardsAmount;
       document.getElementById("btn-selectedCards").classList.remove("disabled");

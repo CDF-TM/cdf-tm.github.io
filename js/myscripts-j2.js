@@ -1,11 +1,10 @@
 // Default counts
-origin_projects= 215;
-origin_corporations= 22;
-origin_preludes= 49;
+origin_projects= 260;
+origin_corporations= 33;
+origin_preludes= 57;
 PROJECTS = origin_projects;
 CORPORATIONS = origin_corporations;
 PRELUDES = origin_preludes;
-
 
 CONTAINER = 200; //the default height of the buttons container
 CONTENT_FILTERS = 125; //the default height of the Content filters area
@@ -50,9 +49,9 @@ function showAll() {
   for (i = 0; i < x.length; i++) {
     w3AddClass(x[i], "show");
   }
-
   //displaying first 60 cards that have "show"
   displayCards();
+
 }
 
 function displayCards() {
@@ -71,7 +70,7 @@ function displayCards() {
     w3AddClass(arr[i], "display");
     w3RemoveClass(arr[i], "show");
   }
-    /////test////
+  /////test////
   PROJECTS = origin_projects;
   CORPORATIONS = origin_corporations;
   PRELUDES = origin_preludes;
@@ -112,6 +111,11 @@ function filterFunction(id) {
   clickedElementID = document.getElementById(id);
   if (clickedElementID != null) {
     clickedElementID.classList.toggle("active");
+    if (document.querySelectorAll("button.active.pack").length==6){
+      document.getElementById("promos").classList.add("active");
+    }else {
+      document.getElementById("promos").classList.remove("active");
+    }
   }
 
   x = document.querySelectorAll(".filterDiv");
@@ -420,6 +424,67 @@ function filterFunction(id) {
   displayCards();
 }
 
+
+function managePacks(id){ //manage promo packs buttons when using buttons add all/remove all
+  if (id=="manageAdd"){
+    //making all packs buttons active
+    y = document.querySelectorAll("button.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.add("active");
+      }
+    }
+    
+    document.getElementById("promos").classList.add("active");
+  }else if (id=="manageRemove"){
+    //making all pack buttons inactive
+    y = document.querySelectorAll("button.active.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.toggle("active");
+      }
+    }
+    document.getElementById("promos").classList.remove("active");
+  }
+}
+function managePromos(id){//manage promo packs buttons when using main promo button
+  if (document.getElementById(id).classList.contains("active")){
+    y = document.querySelectorAll("button.active.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.toggle("active");
+      }
+    }
+  }else{
+    //making all packs buttons active
+    y = document.querySelectorAll("button.pack");
+    if (y.length > 0) {
+      for (i = 0; i < y.length; i++) {
+        y[i].classList.add("active");
+      }
+    }
+  }
+}
+
+function togglePromoPacks(){ // manage promo pack zone and its line visibility (and secondary clean up)
+  line=document.querySelectorAll(".hidden")[0];
+  line2=document.querySelectorAll(".hidden")[1];
+  oline=document.querySelectorAll(".visible")[0];
+  document.getElementById("revealPromos").classList.toggle("active");
+  if (document.getElementById("revealPromos").classList.contains("active")) {
+    document.getElementById("PromosContainer-body").style.display = "block";// reveal the promo pack container
+    line.style.display = "inline-block";// reveal the promo pack container and its lines
+    line2.style.display = "inline-block";// reveal the promo pack container and its lines
+    oline.style.display = "none";
+  } else {
+    document.getElementById("PromosContainer-body").style.display = "none";// reveal the promo pack container
+    line.style.display = "none"; // hide the promo pack container its lines
+    line2.style.display = "none"; // hide the promo pack container its line
+    oline.style.display = "inline-block";
+    filterFunction(); // reset the promo packs individual filter
+  }
+}
+
 function clearInput() {
   document.getElementById("myInput").value = ""; //resets the text input
   document.getElementById("price").value = 0;
@@ -427,6 +492,9 @@ function clearInput() {
   document.getElementById("subfilterReqs").style.display = "none"; //hides the range inputs div
   document.getElementById("btn-selectedCards").classList.add("disabled"); //hide the selected cards button
   document.getElementById("sortButtons").reset(); // reset sort button
+  if (document.getElementById("revealPromos").classList.contains("active")) {
+    togglePromoPacks();//desactivate RevealPromos button if it was active
+  }
   sortByID(); //reset project cards order per ID
 
 
@@ -703,7 +771,7 @@ function selectCard(clickedCard) {
     //showing or removing the CTA button and updating its url
     if (selectedCards.length > 0) {
       document.getElementById("btn-selectedCards").href =
-        "https://cdf-tm.github.io/cards-list-j1" + selectedCards;
+        "https://cdf-tm.github.io/cards-list-j2" + selectedCards;
       document.getElementById("selectedCardsAmount").innerHTML =
         selectedCardsAmount;
       document.getElementById("btn-selectedCards").classList.remove("disabled");
