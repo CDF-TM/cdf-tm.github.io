@@ -255,7 +255,7 @@ li.global-card::before {
   color: #777777;
   letter-spacing: 1px;
   margin-top: -62px;
-  margin-left: 50px;
+  margin-left: 45px;
   font-size: 12px;
 }
 /*
@@ -281,7 +281,7 @@ li.global-card::before {
 */
 
 .num-prel{
-  margin-left:99px;
+  margin-left:92px;
 }
 
 .num-low {
@@ -907,10 +907,13 @@ li.global-card::before {
 
 .button:hover,
 .button2:hover,
-.btn-sort:hover {
+.btn-sort:hover,
+.btn-manage:hover,
+.btn-manage1:hover {
   filter: brightness(120%);
   cursor: pointer;
 }
+
 
 .disabled {
   opacity: 0;
@@ -961,19 +964,14 @@ li.global-card::before {
   vertical-align: top;
 }
 
-.btn5 {
-  outline: none;
-  height: 40px;
-  width: 40px;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 20px;
-  margin-right: 25px;
-  color: white;
-  font-size: 16px;
-  line-height: 30px;
-  letter-spacing: 1px;
-  vertical-align: top;
+.pack {
+  color: #000000;
+  margin-right: 24px;
+}
+
+.pack-small {
+  color: #000000;
+  margin-right: 20px;
 }
 
 .btn4 {
@@ -1008,6 +1006,67 @@ li.global-card::before {
   text-shadow: 0 0 1px black;
 }
 
+.btn-manage {
+  outline: none;
+  display: inline-block;
+  height: 46px;
+  width: 100px;
+  margin-left: -2px;
+  margin-top: -3px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 13px;
+  font-size: 14px;
+  color: #ccc;
+  font-family: Prototype;
+  background-color: #6d5d00;
+  text-shadow: 0 0 1px black;
+}
+.line {
+  position: absolute;
+  width: 39px;
+  height: 10px;
+  background: black;
+  border-radius: 10px;
+  margin-left: -35px;
+  margin-top: 15px;
+  z-index: -1;
+}
+
+.hidden {
+  display: none;
+  border-radius: 0px;
+  width: 45px;
+  opacity:0.5;
+}
+.btn-manage1 {
+  outline: none;
+  display: inline-block;
+  height: 27px;
+  width: 147px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  color: #ccc;
+  font-family: Prototype;
+  background-color: #00bd19;
+  text-shadow: 0 0 1px black;
+}
+
+.btn-manage1-small {
+  width: 95px;
+  margin-right: 5px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.btn-manage2 {
+  background-color: #cc3333;
+}
 .btn-load-more {
   display: none;
   margin-top: 35px;
@@ -1109,7 +1168,7 @@ li.global-card::before {
   width: 111px;
   text-align: center;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 1px;
   border-top: 2px solid rgb(221, 221, 221);
   border-left: 2px solid rgb(221, 221, 221);
@@ -1629,6 +1688,13 @@ li.global-card::before {
   background-size: 30px 34px;
 }
 
+.grey-tile {
+  background-image: url(../images/tiles/Grey_Light.png);
+  /* width: 30px;
+  height: 34px;
+  background-size: 30px 34px; */
+}
+
 .grey-tile-small {
   background-image: url(../images/tiles/Grey_Light.png);
   width: 30px;
@@ -1776,18 +1842,38 @@ li.global-card::before {
 }
 
 .globals-box {
-  width: 100px;
+  /* 406 132 */
+  width: 120px;
+  height: 39px;
+  background-size: 120px 39px;
+  font-size: 20px;
+  line-height: 15px;
+  margin-right: 6px;
+  font-weight: normal; 
   text-shadow: none;
-  font-size: 17px;
-  font-weight: normal;
-  line-height: 17px;
+  display: inline-block;
   vertical-align: middle;
-  padding-top: 5px;
+  align-items: center;
   border-radius: 5px;
-  height: 40px;
-  background-image: url(../images/requisites/min_big.png);
-  background-size: 114px 60px;
-  background-position: -9px -9px;
+  background-image: url(../images/requisites/min_big_no_border.png);
+  background-repeat: no-repeat;
+}
+
+.sp-box {
+  /* 406 132 */
+  width: 120px;
+  height: 39px;
+  background-size: 120px 39px;
+  font-size: 16px;
+  line-height: 15px;
+  font-weight: normal; 
+  text-shadow: none;
+  display: inline-block;
+  vertical-align: middle;
+  padding-top: 1px;
+  border-radius: 5px;
+  background-image: url(../images/misc/SPblank.png);
+  background-repeat: no-repeat;
 }
 
 .colony {
@@ -1805,12 +1891,10 @@ li.global-card::before {
 }
 
 .fleet {
-  background-image: url(../images/tiles/trade.png);
+  background-image: url(../images/tiles/Trade_Fleet.png);
   height: 40px;
-  width: 48px;
-  background-size: 48px;
-  filter: invert(1) drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.5))
-    drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.5));
+  width: 40px;
+  background-size: 40px;
 }
 
 /**************Resources***********/
@@ -1829,6 +1913,9 @@ li.global-card::before {
   background-size: 30px;
   filter: drop-shadow(0px 0px 1px black);
   vertical-align: middle;
+}
+.resource-point {
+  margin-left: -5px;
 }
 
 .resource-tag {
@@ -1957,9 +2044,14 @@ li.global-card::before {
 }
 .director {
   background-image: url(../images/resources/director.png);
+  margin-left: 2px;
+  margin-right: 2px;
 }
 .multiRes {
   background-image: url(../images/resources/Multi_Resources.png);
+}
+.bronze_cube {
+  background-image: url(../images/resources/Bronze_Cube.png);
 }
 
 .card {
@@ -2002,19 +2094,22 @@ li.global-card::before {
   background-repeat: no-repeat;
 }
 
-.card-face {
-  background: linear-gradient(
-    #ddd 20%,
-    #74aedb 20%,
-    #74aedb 80%,
-    #ddd 80%,
-    #ddd 100%
-  );
-  font-size: 14px;
-  line-height: 40px;
-  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.5);
-  border-radius: 2px;
+.card-blue {
+  background: url("../images/resources/Blue_Normal_small.png");
   height: 40px;
+  width: 30px;
+  background-size: 30px 40px;
+  vertical-align: middle;
+  filter:none;
+}
+
+.card-blue-resources {
+  background: url("../images/resources/Blue_with_Resources_small.png");
+  height: 40px;
+  width: 30px;
+  background-size: 30px 40px;
+  vertical-align: middle;
+  filter:none;
 }
 
 .card-icon {
@@ -2431,7 +2526,7 @@ li.global-card::before {
   top: -256px;
   z-index: 2;
   display: none;
-  width: 930px;
+  width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2448,13 +2543,14 @@ li.global-card::before {
 #PromosContainer-body {
   background: rgba(0, 0, 0, 0.5);
   height: 200px;
-  width: 380px;
+  width: 330px;
   transition: height 0.2s, width 0.2s;
   margin: 5px 0;
   position:absolute;
   margin-left: 965px;
   align-items: center;
   padding-left: 20px;
+  display: none;
 }
 
 #buttonsContainer-header {
@@ -2484,7 +2580,7 @@ li.global-card::before {
   height: 20px;
   line-height: 20px;
   display: inline-block;
-  width: 400px;
+  width: 350px;
   margin-left: -20px; 
   text-align: center;
 }
@@ -3377,4 +3473,9 @@ input[type="radio"]:checked + label {
 
 .tile-glued{
   margin-left: -7px;
+}
+
+.reduce-size{
+  display:inline-block;
+  transform: scale(0.8);
 }
