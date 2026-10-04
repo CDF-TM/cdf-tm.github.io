@@ -1,0 +1,24 @@
+{
+  "name": "TM",
+  "version": "1.1.0",
+  "description": "Terraforming Mars - Cartes",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -c-1 -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CDF-TM/cdf-tm.github.io/"
+  },
+  "type": "module",
+  "keywords": [
+    "terraforming",
+    "mars"
+  ],
+  "author": "M. V.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CDF-TM/cdf-tm.github.io/issues"
+  },
+  "homepage": "https://cdf-tm.github.io"
+}
